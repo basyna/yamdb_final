@@ -1,24 +1,23 @@
 import random
 
+from api.filters import Titlefilter
+from api.mixins import CreateListDeleteViewSet
+from api.permissions import IsAdmin, IsAdminOrReadOnly, IsOwnerOrAdminReadOnly
+from api.serializers import (CategorySerializer, CommentSerializer,
+                             GenreSerializer, NotAdminSerializer,
+                             ReviewSerializer, TitleCreateSerializer,
+                             TitleListSerializer, UserCreateSerializer,
+                             UserRegisterSerializer, UserSerializer)
 from django.core.mail import send_mail
 from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, viewsets, status
+from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-
-from api.filters import Titlefilter
-from api.permissions import IsAdminOrReadOnly, IsOwnerOrAdminReadOnly, IsAdmin
-from api.mixins import CreateListDeleteViewSet
-from api.serializers import (CategorySerializer, CommentSerializer,
-                             GenreSerializer, ReviewSerializer,
-                             TitleCreateSerializer, NotAdminSerializer,
-                             TitleListSerializer, UserCreateSerializer,
-                             UserRegisterSerializer, UserSerializer)
 from reviews.models import Category, Genre, Review, Title, User
 
 
@@ -119,12 +118,11 @@ class RegisterUser(APIView):
                 refresh = RefreshToken.for_user(user).access_token
                 serializer.validated_data['token'] = refresh
                 return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                message = 'Неверный проверочный код'
-                return Response(
-                    {'confirmation_code': message},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+            message = 'Неверный проверочный код'
+            return Response(
+                {'confirmation_code': message},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

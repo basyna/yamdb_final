@@ -8,8 +8,7 @@ class IsAdminOrReadOnly(permissions.BasePermission):
                 request.method == 'GET'
                 or request.user.role == 'admin'
             )
-        else:
-            return request.method == 'GET'
+        return request.method == 'GET'
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -38,8 +37,7 @@ class IsOwnerOrAdminReadOnly(permissions.BasePermission):
                 obj.author == request.user
                 or request.user.role in ['admin', 'moderator']
             )
-        else:
-            return request.method == 'GET'
+        return request.method == 'GET'
 
 
 class IsAdmin(permissions.BasePermission):
