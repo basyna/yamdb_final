@@ -1,6 +1,7 @@
 ![example workflow](https://github.com/basyna/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
 
 # Проект: Развёртывание API для доступа к блогу в Docker
+## Проект доступен по адресу [51.250.108.25](http://51.250.108.25/admin/)
 
 ## Цель работы
 
